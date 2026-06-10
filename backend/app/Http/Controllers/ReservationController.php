@@ -23,12 +23,10 @@ class ReservationController extends Controller
 
     public function index(Request $request)
     {
-        $user = $request->user();
         $filters = $request->only(['status', 'equipment_id', 'user_id']);
         $page = $request->input('page') ? (int)$request->input('page') : null;
-        $userId = $user->isAdmin() ? null : $user->id;
 
-        $reservations = $this->reservationRepo->paginate($filters, 15, $page, $userId);
+        $reservations = $this->reservationService->getReservations($filters, $request->user(), $page);
         return $this->paginatedResponse($reservations);
     }
 

@@ -209,4 +209,19 @@ class ReservationService implements ReservationServiceInterface
             return $this->reservationRepo->delete($reservation->id);
         });
     }
+
+    /**
+     * Get paginated reservations with filters.
+     *
+     * @param array $filters Filters for the list (status, equipment_id, user_id)
+     * @param User $actor The user requesting the reservations
+     * @param int|null $page Page number
+     * @param int $perPage Items per page
+     * @return mixed Paginated reservations
+     */
+    public function getReservations(array $filters, User $actor, ?int $page = null, int $perPage = 15): mixed
+    {
+        $userId = $actor->isAdmin() ? null : $actor->id;
+        return $this->reservationRepo->paginate($filters, $perPage, $page, $userId);
+    }
 }

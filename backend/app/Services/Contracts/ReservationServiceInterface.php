@@ -56,4 +56,16 @@ interface ReservationServiceInterface
      * @throws Exception If reservation is not found or authorization fails
      */
     public function deleteReservation(int $id, User $actor): bool;
+
+    /**
+     * Get paginated reservations with filters.
+     *
+     * @param array $filters Filters for the list (status, equipment_id, user_id)
+     * @param User $actor The user requesting the reservations
+     * @param int|null $page Page number
+     * @param int $perPage Items per page
+     * @return mixed Paginated reservations
+     */
+    public function getReservations(array $filters, User $actor, ?int $page = null, int $perPage = 15): mixed;
 }
+
